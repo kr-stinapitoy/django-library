@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+    
+    {% if user.id == book_data.owner.id %}
+        <h2 class="d-flex justify-content-center">Update Book</h2>
+        <div class="d-flex justify-content-center">  
+            <form method="post">
+                {% csrf_token %}                  
+                {% for field in UB_form %}
+                    <div class="row align-items-center mb-2 mt-2">
+                        <div class="col">    
+                            {{ field.label_tag }}					
+                            <!-- {{ field.errors }} -->
+                        </div>
+                        <div class="col">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+                <br>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">Update</button>     
+                </div>             	                            
+            </form>           
+        </div>
+    {% else %}
+        <p class="text-center">You are not allowed to edit this article</p> 
+    {% endif %}	 
+	<br>          	
+</div>
+
+{% endblock %}

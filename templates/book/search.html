@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for book in search %}
+       {{ book.title }} 
+    {% endfor %}
+
+{% endblock %}

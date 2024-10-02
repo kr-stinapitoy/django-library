@@ -1,0 +1,31 @@
+p {
+  margin: none !important;
+}
+
+.card {
+  box-shadow: 0 16px 48px #E3E7EB;
+  min-height: 200px;
+}
+
+#book-card img {
+  height: 200px;
+  background-clip: padding-box;
+  object-fit: cover;
+}
+
+#book-card {
+  width: 15rem;
+}
+
+.card-text-block {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 12px;
+  border-radius: 15px;
+  color: white;
+  background-color: rgb(37, 185, 62);
+  text-align: center;
+  margin: 0;
+  padding: 0.2rem 0.5rem;
+}

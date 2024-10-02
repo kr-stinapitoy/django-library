@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!--Register-->
+<div class="container mt-4">
+	<h2 class="d-flex justify-content-center">Register</h2>
+  <div class="d-flex justify-content-center">
+    <form method="post">
+		{% csrf_token %}
+		{% for field in form %}
+		{% include 'messages.html' %}
+			<div class="row align-items-center mb-2 mt-2">
+				<div class="col">
+					{{ field.label_tag }}
+				</div>
+				<div class="col">
+					{{ field }}
+				</div>
+			</div>
+		{% endfor %}
+		<br>
+		<div class="text-center">
+			<button class="btn btn-primary" type="submit">Register</button>
+		</div>
+		</form>
+	</div>
+	<br>
+	<p class="text-center">If you already have an account, <a href="{% url 'user:login' %}">login</a> instead.</p>
+</div>
+{% endblock %}

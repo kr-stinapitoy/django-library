@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center text-center">
+    {% if borrowed_books %}
+        <div class="table-responsive table-hover">
+            <table class="table text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Checked Out Date</th>
+                        <th>Returned Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for book in borrowed_books %}
+                    <tr>
+                        <td><strong>{{ book.book.title }}</strong></td>
+                        <td><strong>{{ book.book.location }}</strong></td>
+                        <td>
+                            <strong>
+                            {% if book.is_returned %}
+                                Returned
+                            {% else %}
+                                Borrowed
+                            {% endif %}
+                            </strong>       
+                        </td>
+                        <td><strong>{{ book.checkedout_date }}</strong></td>
+                        <td><strong>{{ book.return_date }}</strong></td>
+                        <td>
+                            <form method="POST" enctype="multipart/form-data" action="{% url 'book:return_book' book.book.pk %}">  
+                                {% csrf_token %}
+                                {% if not book.is_returned %}
+                                    <button type="submit" class="btn btn-warning">Return</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">No Borrowed Books</h4>
+            <p>You currently have no borrowed books.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

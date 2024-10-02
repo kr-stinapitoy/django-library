@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center text-center">
+  {% if owned_books %}
+    <div class="table-responsive table-hover">
+      <table class="table text-center">
+        <thead class="thead-dark">
+          <tr>
+            <th>Title</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Author</th>
+            <th>
+              <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#createbook">
+                Add Book
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for book in owned_books %}
+          <tr>
+            <td><strong>{{ book.title }}</strong></td>
+            <td><strong>{{ book.location }}</strong></td>
+            <td><strong>{{ book.status }}</strong></td>
+            <td><strong>{{ book.author }}</strong></td>
+            <td>
+              <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#book{{ book.pk }}" value="{{ book.pk }}">Update</button>
+              <a href="{% url 'book:delete_book' book.id %}" class="btn btn-danger">Delete</a>
+            </td>
+          </tr>
+
+          <!-- Modal -->
+          <div class="modal fade" id="book{{ book.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit {{ book.title }}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form method="post" action="{% url 'book:edit_book' book.pk %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in UB_form %}
+                      <div class="row align-items-center mb-0 mt-2">
+                        <div class="col">
+                          {{ field.label }}:
+                        </div>
+                        <div class="col popover-test" title="{{ field.errors|striptags }}">
+                          {{ field }}
+                        </div>
+                        {% include 'messages.html'%}
+                      </div>
+                    {% endfor %}
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary" name="update_book" value="{{ book.pk }}">Save Changes</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">No Owned Books</h4>
+      <p>You currently have no owned book. Click the button below to add a book.</p>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createbook">
+        Add Book
+      </button>
+    </div>
+  {% endif %}
+  
+  <div class="modal fade" id="createbook" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add a Book</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="{% url 'book:create_book' %}" enctype="multipart/form-data">
+            {% csrf_token %} 
+            {% for field in CB_form %}
+              <div class="row align-items-center mb-0 mt-2 pl-3 pr-3">
+                <div class="col text-left">
+                  {{ field.label }}:
+                </div>
+                <div class="col">
+                  {{ field }}
+                </div>
+                {% include 'messages.html' %}
+              </div>
+            {% endfor %}
+            <div class="modal-footer d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary ">Add Book</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

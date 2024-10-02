@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+	<h3 class="d-flex justify-content-center">Update Profile</h3>
+    <div class="d-flex justify-content-center">
+        <form method="post">
+            {% csrf_token %}
+            {% if user.id == page_user.id %}
+                {% for field in form %}
+                    <div class="row align-items-center mb-2 mt-2">
+                        <div class="col">
+                            {{ field.label_tag }}
+                        </div>
+                        <div class="col" id="bookfield">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+                {% include 'messages.html' %}
+                <br>
+                <div class="text-center">
+                    <button class="btn btn-warning" type="submit">Update Details</button>
+                </div>
+            {% else %}
+                You are not allowed to edit this profile
+            {% endif %}
+        </form>
+	</div>
+</div>
+{% endblock %}

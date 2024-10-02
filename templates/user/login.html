@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block home %}
+{% endblock %}
+<html>
+<body>
+  {% block content %}
+  <div class="container mt-5">
+    <h2 class="d-flex justify-content-center">Log In</h2>
+    <div class="d-flex justify-content-center">
+      <form method="post" action="{% url 'user:login' %}">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="row align-items-center mb-2 mt-2">
+            <div class="col">
+              {{ field.label_tag }}
+              {% if field.help_text %}
+                <sup>{{ field.help_text }}</sup>
+              {% endif %}
+            </div><div class="col">
+              {{ field }}
+            </div>
+          </div>
+          {% include 'messages.html' %}
+        {% endfor %}
+        <br>
+        <div class="text-center">
+          <button type="submit" class="btn btn-info">Log In</button>
+        </div>
+      </form>
+    </div>
+    <br>
+    <p id="register" class="text-center">Don't have an account? <a href="{% url 'user:register' %}">Create an account</a>.</p>
+  </div>
+  {% endblock content %}
+</body>
+</html>
+
+

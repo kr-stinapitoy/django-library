@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-wrapper">
+    <article class="px-5 py-5 p-md-1">
+        <div class="container">
+            <header">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="mb-2">{{ book_page.title }}</h2>
+                    </div>
+                    <div class="col">
+                        {% if book_page.owner.id == user.id %}
+                            <a class="btn btn-outline-primary" href="{% url 'book:edit_book' book_page.id %}" role="button">Edit Book</a>
+                            <a href="{% url 'book:delete_book' book_page.pk %}" class="btn btn-outline-danger">Delete Book</a> 
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mb-3"><span class="date">Published {{ book_page.date_created }}</span></div>
+            </header>
+        </div>
+    </article>
+</div>
+
+{% endblock %}
