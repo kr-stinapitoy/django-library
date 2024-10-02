@@ -1,5 +1,7 @@
 1. Create a virtual environment
+```
 python -m venv env
+```
 
 2. Activate the virtual environment
 - On Windows:
