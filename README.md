@@ -14,4 +14,6 @@ python -m venv env
   ```
 
 3. Install the project dependencies
+```
 pip install -r requirements.txt
+```
